@@ -49,7 +49,6 @@ export class AppComponent {
             .subscribe(res => {
                 //Get the response body:
                 this.issues = res.body;
-                console.log(this.issues);
 
                 //Get the response.headers here is the number of pages for the paginator
                 const links = res.headers.get('link').split(',');
@@ -61,6 +60,7 @@ export class AppComponent {
                     }
                 });
                 this.totalPages = maxPage;
+                console.log(this.totalPages);
         });
 
     }

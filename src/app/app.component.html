@@ -26,20 +26,19 @@
     </div>
   </div>
 
-
   <ul class="list-group mt-2">
     <li class="list-group-item" *ngFor="let issue of issues">
       <div class="row">
-          <a href="{{issue.html_url}}">
+          <a target="_blank" href="{{issue.html_url}}">
             <h5 class="m-2"> {{issue.title}} </h5>
           </a>
       </div>
 
       <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-6">
           <span> {{issue.state}} </span>
           <span> #{{issue.number}} </span>
-          <span> created at {{issue.date}} by <a href="{{issue.user.html_url}}">{{issue.user.login}}</a></span>
+          <span> created at {{issue.date}} by <a target="_blank" href="{{issue.user.html_url}}">{{issue.user.login}}</a></span>
         </div>
         <div class="col-md-4 labels">
           <span *ngFor="let label of issue.labels" class="p-1 m-1" [style.background-color]="'#'+label.color"> {{label.name}} </span>
@@ -52,11 +51,10 @@
     </li>
   </ul>
 
-
   <div class="mt-2 col-12 justify-content-center">
     <ngb-pagination
                     *ngIf="totalPages"
-                    [collectionSize]="totalPages*itemsPerPage" #numPages
+                    [collectionSize]="totalPages * itemsPerPage -1" #numPages
                     [pageSize]="itemsPerPage"
                     [(page)]="currentPage"
                     (pageChange)="onPageChange(currentPage)">
