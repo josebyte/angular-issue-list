@@ -1,0 +1,66 @@
+<div>
+
+  <p class="mt-2">
+    Enter a github repository url for list the issues, for example: https://github.com/chanzuckerberg/cellxgene
+  </p>
+
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <form (ngSubmit)="loadIssues()">
+        <div class="input-group">
+          <input class="form-control" type="url" required
+                 name="repoUrl" [(ngModel)]="repoUrl"
+                 placeholder="Enter github repository url"
+                 (keydown)="onKeydown($event)">
+          <button type="submit" class="btn btn-primary">Get issues</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <div *ngIf="repoUrl.invalid && (url.dirty || url.touched)"
+       class="alert alert-danger mt-2">
+    <div *ngIf="repoUrl.errors.required">
+      Url is required.
+    </div>
+  </div>
+
+
+  <ul class="list-group mt-2">
+    <li class="list-group-item" *ngFor="let issue of issues">
+      <div class="row">
+          <a href="{{issue.html_url}}">
+            <h5 class="m-2"> {{issue.title}} </h5>
+          </a>
+      </div>
+
+      <div class="row">
+        <div class="col-md-7">
+          <span> {{issue.state}} </span>
+          <span> #{{issue.number}} </span>
+          <span> created at {{issue.date}} by <a href="{{issue.user.html_url}}">{{issue.user.login}}</a></span>
+        </div>
+        <div class="col-md-4 labels">
+          <span *ngFor="let label of issue.labels" class="p-1 m-1" [style.background-color]="'#'+label.color"> {{label.name}} </span>
+        </div>
+        <div class="col-md-2">
+          <img class="text-right" src="{{issue.user.avatar_url}}" width="25px" height="25px">
+          <i *ngIf="issue.comments" class="fa fa-comment m-1"> {{issue.comments}} </i>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+
+  <div class="mt-2 col-12 justify-content-center">
+    <ngb-pagination
+                    *ngIf="totalPages"
+                    [collectionSize]="totalPages*itemsPerPage" #numPages
+                    [pageSize]="itemsPerPage"
+                    [(page)]="currentPage"
+                    (pageChange)="onPageChange(currentPage)">
+    </ngb-pagination>
+  </div>
+
+</div>

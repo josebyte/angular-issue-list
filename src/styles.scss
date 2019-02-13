@@ -1,0 +1,19 @@
+@import "assets/css/bootstrap.min.css";
+@import "../node_modules/font-awesome/css/font-awesome.css";
+
+a{
+  text-decoration: none !important;
+}
+
+.justify-content-center {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.fa.far{
+  color: #586069!important;
+}
+
+.labels{
+  color: #ffffff;
+}
