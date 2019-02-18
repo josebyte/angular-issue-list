@@ -10,10 +10,21 @@ a{
   justify-content: center !important;
 }
 
-.fa.far{
-  color: #586069!important;
+.fa,.far{
+  color: #848f98 !important;
 }
 
 .labels{
   color: #ffffff;
+  line-height: 2em;
+  font-size: 1em;
+}
+
+.badge {
+  border-radius: 50%;
+  font-size: 8px;
+  background: #ff7800;
+  color: #ffffff;
+  vertical-align: top;
+  margin-left: -10px;
 }

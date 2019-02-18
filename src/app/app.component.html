@@ -5,47 +5,48 @@
   </p>
 
   <div class="row mt-2">
-    <div class="col-md-12">
-      <form (ngSubmit)="loadIssues()">
-        <div class="input-group">
-          <input class="form-control" type="url" required
-                 name="repoUrl" [(ngModel)]="repoUrl"
+    <div class="col-12">
+      <form #form (ngSubmit)="loadIssues()" class="input-group">
+          <input class="form-control" type="url"
+                 required
+                 pattern="^(https?://)?github\.com\/.+\/.+"
+                 name="repoUrl" [(ngModel)]="repoUrl" #model="ngModel"
                  placeholder="Enter github repository url"
                  (keydown)="onKeydown($event)">
-          <button type="submit" class="btn btn-primary">Get issues</button>
-        </div>
+          <button type="submit" [disabled]="!model.valid" class="btn btn-primary">Get issues</button>
       </form>
+      <div *ngIf="model.invalid && (model.dirty || model.touched) && repoUrl.length > 15 && model.errors.pattern"
+        class="alert alert-danger mt-2">
+          Url is not a github valid repository.
+      </div>
     </div>
   </div>
 
-
-  <div *ngIf="repoUrl.invalid && (url.dirty || url.touched)"
-       class="alert alert-danger mt-2">
-    <div *ngIf="repoUrl.errors.required">
-      Url is required.
-    </div>
-  </div>
-
-  <ul class="list-group mt-2">
+  <ul class="list-group">
     <li class="list-group-item" *ngFor="let issue of issues">
       <div class="row">
+        <div class="col-sm-12">
           <a target="_blank" href="{{issue.html_url}}">
-            <h5 class="m-2"> {{issue.title}} </h5>
+            <h5> {{issue.title}} </h5>
           </a>
+        </div>
       </div>
 
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-12 col-md-5 text-left">
           <span> {{issue.state}} </span>
           <span> #{{issue.number}} </span>
           <span> created at {{issue.date}} by <a target="_blank" href="{{issue.user.html_url}}">{{issue.user.login}}</a></span>
         </div>
-        <div class="col-md-4 labels">
+        <div class="col-10 col-md-5 labels">
           <span *ngFor="let label of issue.labels" class="p-1 m-1" [style.background-color]="'#'+label.color"> {{label.name}} </span>
         </div>
-        <div class="col-md-2">
-          <img class="text-right" src="{{issue.user.avatar_url}}" width="25px" height="25px">
-          <i *ngIf="issue.comments" class="fa fa-comment m-1"> {{issue.comments}} </i>
+        <div class="col-2 text-right">
+          <img class="rounded-circle" src="{{issue.user.avatar_url}}" width="25px" height="25px">
+          <a *ngIf="issue.comments" href="{{issue.comments_url}}">
+            <i class="fa fa-lg fa-comment m-1"></i>
+            <span class='badge'> {{issue.comments}} </span>
+          </a>
         </div>
       </div>
     </li>
